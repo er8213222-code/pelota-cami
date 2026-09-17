@@ -1,0 +1,1297 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LA FAMILIA — EL JUEGO</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:#080808;
+    color:white;
+    overflow-x:hidden;
+}
+
+.screen{
+    min-height:100vh;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:25px;
+}
+
+.screen.active{
+    display:flex;
+}
+
+/* PORTADA */
+
+#cover{
+    background:
+        radial-gradient(circle at center,#242424 0%,#090909 55%,#000 100%);
+    text-align:center;
+}
+
+.cover-box{
+    width:100%;
+    max-width:800px;
+}
+
+.title{
+    font-size:clamp(55px,12vw,130px);
+    font-weight:900;
+    letter-spacing:8px;
+    text-shadow:
+        5px 5px 0 #ffcc00,
+        9px 9px 0 #ff3b3b;
+    animation:titlePulse 2s infinite;
+}
+
+.subtitle{
+    font-size:clamp(22px,5vw,45px);
+    margin-top:20px;
+    letter-spacing:10px;
+    color:#ddd;
+}
+
+.play-btn{
+    margin-top:60px;
+    padding:22px 70px;
+    font-size:32px;
+    font-weight:900;
+    color:#111;
+    background:#ffcc00;
+    border:5px solid white;
+    border-radius:12px;
+    cursor:pointer;
+    box-shadow:0 8px 0 #9c7800;
+    transition:.15s;
+}
+
+.play-btn:hover{
+    transform:translateY(-5px);
+}
+
+.play-btn:active{
+    transform:translateY(5px);
+    box-shadow:0 3px 0 #9c7800;
+}
+
+@keyframes titlePulse{
+    50%{transform:scale(1.03)}
+}
+
+/* SELECCIÓN */
+
+#selection{
+    flex-direction:column;
+    background:
+        linear-gradient(rgba(0,0,0,.7),rgba(0,0,0,.8)),
+        repeating-linear-gradient(
+            45deg,
+            #111 0px,
+            #111 10px,
+            #151515 10px,
+            #151515 20px
+        );
+}
+
+.section-title{
+    font-size:45px;
+    color:#ffcc00;
+    margin-bottom:25px;
+    text-align:center;
+    text-shadow:4px 4px #000;
+}
+
+.characters{
+    width:100%;
+    max-width:1200px;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:16px;
+}
+
+.character-card{
+    background:#191919;
+    border:3px solid #444;
+    border-radius:14px;
+    padding:18px 10px;
+    text-align:center;
+    cursor:pointer;
+    transition:.2s;
+    box-shadow:0 5px 0 #000;
+}
+
+.character-card:hover{
+    transform:translateY(-8px) scale(1.03);
+    border-color:#ffcc00;
+}
+
+.avatar{
+    font-size:65px;
+    margin-bottom:10px;
+}
+
+.character-name{
+    font-size:18px;
+    font-weight:bold;
+}
+
+.age{
+    color:#aaa;
+    margin-top:5px;
+}
+
+.menu-buttons{
+    display:flex;
+    gap:15px;
+    margin-top:25px;
+    flex-wrap:wrap;
+    justify-content:center;
+}
+
+.small-btn{
+    background:#ffcc00;
+    color:#111;
+    border:3px solid white;
+    padding:12px 25px;
+    border-radius:8px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+/* PERFIL */
+
+#profile{
+    flex-direction:column;
+    background:#101010;
+}
+
+.profile-box{
+    width:100%;
+    max-width:950px;
+    background:#1b1b1b;
+    border:4px solid #ffcc00;
+    border-radius:18px;
+    padding:25px;
+    box-shadow:0 10px 30px #000;
+}
+
+.profile-header{
+    display:flex;
+    gap:25px;
+    align-items:center;
+    border-bottom:2px solid #444;
+    padding-bottom:20px;
+    margin-bottom:20px;
+}
+
+.profile-avatar{
+    font-size:90px;
+}
+
+.profile-name{
+    font-size:42px;
+    color:#ffcc00;
+}
+
+.profile-class{
+    color:#aaa;
+    font-size:20px;
+    margin-top:8px;
+}
+
+.info-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:15px;
+}
+
+.info{
+    background:#101010;
+    border:2px solid #333;
+    padding:15px;
+    border-radius:10px;
+}
+
+.info strong{
+    display:block;
+    color:#ffcc00;
+    margin-bottom:7px;
+}
+
+.stats{
+    margin-top:20px;
+}
+
+.stat{
+    margin:12px 0;
+}
+
+.stat-line{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:5px;
+}
+
+.bar{
+    height:15px;
+    background:#333;
+    border-radius:10px;
+    overflow:hidden;
+}
+
+.fill{
+    height:100%;
+    background:#ffcc00;
+    width:0;
+    transition:1s;
+}
+
+/* JUEGOS */
+
+#games{
+    flex-direction:column;
+    background:#070707;
+}
+
+.games-grid{
+    width:100%;
+    max-width:1000px;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;
+}
+
+.game-card{
+    background:#181818;
+    border:3px solid #444;
+    border-radius:15px;
+    padding:25px;
+    text-align:center;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.game-card:hover{
+    border-color:#ffcc00;
+    transform:scale(1.03);
+}
+
+.game-icon{
+    font-size:65px;
+    margin-bottom:15px;
+}
+
+.game-card h3{
+    color:#ffcc00;
+    margin-bottom:10px;
+}
+
+.game-card p{
+    color:#bbb;
+}
+
+/* MINIJUEGO */
+
+#minigame{
+    flex-direction:column;
+    background:#111;
+}
+
+.game-area{
+    width:100%;
+    max-width:900px;
+    min-height:500px;
+    background:
+        linear-gradient(#151515,#080808);
+    border:4px solid #ffcc00;
+    border-radius:15px;
+    position:relative;
+    overflow:hidden;
+}
+
+.game-info{
+    display:flex;
+    justify-content:space-between;
+    padding:15px;
+    background:#222;
+    font-size:20px;
+}
+
+.target{
+    position:absolute;
+    font-size:55px;
+    cursor:pointer;
+    user-select:none;
+    animation:float .8s infinite alternate;
+}
+
+@keyframes float{
+    from{transform:translateY(0)}
+    to{transform:translateY(-12px)}
+}
+
+.message{
+    margin-top:20px;
+    font-size:22px;
+    color:#ffcc00;
+    text-align:center;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:600px){
+    .title{
+        letter-spacing:3px;
+    }
+
+    .profile-header{
+        flex-direction:column;
+        text-align:center;
+    }
+
+    .profile-name{
+        font-size:30px;
+    }
+
+    .profile-avatar{
+        font-size:70px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= PORTADA ================= -->
+
+<section id="cover" class="screen active">
+
+    <div class="cover-box">
+
+        <div class="title">
+            LA FAMILIA
+        </div>
+
+        <div class="subtitle">
+            EL JUEGO
+        </div>
+
+        <button class="play-btn" onclick="startGame()">
+            JUEGA
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- ================= SELECCIÓN ================= -->
+
+<section id="selection" class="screen">
+
+    <h1 class="section-title">
+        SELECCIONA TU PERSONAJE
+    </h1>
+
+    <div class="characters" id="characters"></div>
+
+    <div class="menu-buttons">
+
+        <button class="small-btn" onclick="showScreen('games')">
+            🎮 JUEGOS
+        </button>
+
+        <button class="small-btn" onclick="showScreen('cover')">
+            ← PORTADA
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- ================= PERFIL ================= -->
+
+<section id="profile" class="screen">
+
+    <div class="profile-box">
+
+        <div class="profile-header">
+
+            <div class="profile-avatar" id="profileAvatar">
+                👤
+            </div>
+
+            <div>
+
+                <div class="profile-name" id="profileName">
+                    Personaje
+                </div>
+
+                <div class="profile-class" id="profileClass">
+                    Clase
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="info-grid">
+
+            <div class="info">
+                <strong>⚡ PODER ESPECIAL</strong>
+                <span id="power"></span>
+            </div>
+
+            <div class="info">
+                <strong>💥 ATAQUE</strong>
+                <span id="attack"></span>
+            </div>
+
+            <div class="info">
+                <strong>🛡️ DEFENSA</strong>
+                <span id="defense"></span>
+            </div>
+
+            <div class="info">
+                <strong>🎒 OBJETO</strong>
+                <span id="item"></span>
+            </div>
+
+            <div class="info">
+                <strong>🔮 HABILIDAD SECRETA</strong>
+                <span id="secret"></span>
+            </div>
+
+            <div class="info">
+                <strong>🔊 SONIDO</strong>
+                <span id="sound"></span>
+            </div>
+
+            <div class="info">
+                <strong>🗣️ FRASE</strong>
+                <span id="phrase"></span>
+            </div>
+
+            <div class="info">
+                <strong>⚠️ DEBILIDAD</strong>
+                <span id="weakness"></span>
+            </div>
+
+        </div>
+
+
+        <div class="stats">
+
+            <h2 style="color:#ffcc00;margin-bottom:15px;">
+                ESTADÍSTICAS
+            </h2>
+
+            <div id="statsContainer"></div>
+
+        </div>
+
+
+        <div class="menu-buttons">
+
+            <button class="small-btn" onclick="showScreen('selection')">
+                ← PERSONAJES
+            </button>
+
+            <button class="small-btn" onclick="showScreen('games')">
+                🎮 JUGAR
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= JUEGOS ================= -->
+
+<section id="games" class="screen">
+
+    <h1 class="section-title">
+        🎮 JUEGOS DE LA FAMILIA
+    </h1>
+
+    <div class="games-grid">
+
+        <div class="game-card" onclick="startMiniGame('cake')">
+            <div class="game-icon">🎂</div>
+            <h3>¡SALVA EL PASTEL!</h3>
+            <p>Camila anda cerca. ¡Protege el pastel!</p>
+        </div>
+
+        <div class="game-card" onclick="startMiniGame('tortilla')">
+            <div class="game-icon">🌮</div>
+            <h3>GUERRA DE TORTILLAS</h3>
+            <p>Haz clic en todas las tortillas.</p>
+        </div>
+
+        <div class="game-card" onclick="startMiniGame('concert')">
+            <div class="game-icon">🎹</div>
+            <h3>CONCIERTO DE GERARDO</h3>
+            <p>¡Atrapa las notas musicales!</p>
+        </div>
+
+        <div class="game-card" onclick="startMiniGame('baby')">
+            <div class="game-icon">👶</div>
+            <h3>¡QUE NO LLORE GERARDITO!</h3>
+            <p>Haz clic rápidamente en el bebé.</p>
+        </div>
+
+    </div>
+
+    <div class="menu-buttons">
+
+        <button class="small-btn" onclick="showScreen('selection')">
+            ← PERSONAJES
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- ================= MINIJUEGO ================= -->
+
+<section id="minigame" class="screen">
+
+    <h1 class="section-title" id="gameTitle">
+        MINIJUEGO
+    </h1>
+
+    <div class="game-area">
+
+        <div class="game-info">
+
+            <span>
+                Puntos: <b id="score">0</b>
+            </span>
+
+            <span>
+                Tiempo: <b id="time">20</b>
+            </span>
+
+        </div>
+
+        <div id="target" class="target"></div>
+
+    </div>
+
+    <div class="message" id="gameMessage">
+        ¡Prepárate!
+    </div>
+
+    <div class="menu-buttons">
+
+        <button class="small-btn" onclick="showScreen('games')">
+            ← JUEGOS
+        </button>
+
+    </div>
+
+</section>
+
+
+<script>
+
+/* =========================================================
+   PERSONAJES
+========================================================= */
+
+const family = [
+
+{
+name:"Abuelo Gerardo",
+age:54,
+avatar:"👴",
+class:"El Maestro del Piano",
+power:"Concierto Supremo",
+attack:"Acorde Destructor",
+defense:"Melodía Protectora",
+item:"Piano legendario",
+secret:"Puede convertir cualquier momento en un concierto.",
+sound:"TIN TIN TAAAN!",
+phrase:"A ver, déjame tocar una.",
+weakness:"Que le quiten el piano.",
+stats:{
+"Velocidad":75,
+"Inteligencia":90,
+"Locura":60
+}
+},
+
+{
+name:"Abuela Diocelina",
+age:54,
+avatar:"👵",
+class:"Reina del Pozole",
+power:"Pozole Supremo",
+attack:"Cucharón Destructor",
+defense:"Caldo Protector",
+item:"Olla legendaria de pozole",
+secret:"Sabe exactamente cuándo está listo el pozole.",
+sound:"¡CLONK! ¡CLONK!",
+phrase:"¡Ya está el pozole!",
+weakness:"Que alguien diga: 'No tengo hambre'.",
+stats:{
+"Curación":100,
+"Experiencia":99,
+"Locura":70
+}
+},
+
+{
+name:"Paulina",
+age:34,
+avatar:"👩",
+class:"Mamá Protectora",
+power:"Modo Mamá 24/7",
+attack:"¡A dormir YA!",
+defense:"Protección Maternal",
+item:"Bolsa de mamá infinita",
+secret:"Puede escuchar a Gerardito llorar desde cualquier parte del mapa.",
+sound:"¿Dónde está el bebé?",
+phrase:"¡A ver, niños!",
+weakness:"Que nadie le haga caso.",
+stats:{
+"Curación":100,
+"Experiencia":95,
+"Caos":100
+}
+},
+
+{
+name:"Andrea",
+age:30,
+avatar:"👩",
+class:"Maestra Nocturna",
+power:"Tarea Nocturna",
+attack:"¡Leo, haz la tarea!",
+defense:"Paciencia Infinita",
+item:"Cuaderno legendario",
+secret:"Detecta cuando Leo finge que no escucha.",
+sound:"¡LEO, LA TAREA!",
+phrase:"Primero la tarea y después juegas.",
+weakness:"'Ahorita voy…'",
+stats:{
+"Velocidad":80,
+"Inteligencia":95,
+"Caos":85
+}
+},
+
+{
+name:"Geraldine",
+age:23,
+avatar:"👩",
+class:"Maestra de la Tortilla",
+power:"Tortilla Voladora",
+attack:"Prensa Mortal",
+defense:"Escudo de Tortilla",
+item:"Prensa de tortillas legendaria",
+secret:"Puede reconocer una buena tortilla con solo verla.",
+sound:"¡PSSHHH! ¡TAC! ¡TAC!",
+phrase:"¡Salieron las tortillas!",
+weakness:"Que se acabe la masa.",
+stats:{
+"Velocidad":95,
+"Fuerza":90,
+"Caos":75
+}
+},
+
+{
+name:"Emiliano",
+age:13,
+avatar:"👦",
+class:"Personaje Carismático",
+power:"Rechazo Legendario",
+attack:"Modo Inalcanzable",
+defense:"Corazón Blindado",
+item:"Peine legendario",
+secret:"Aunque tenga admiradores, puede decir tranquilamente: 'No, gracias'.",
+sound:"¡PFFFFT!",
+phrase:"No, gracias.",
+weakness:"Que mamá diga: '¡Emiliano!'",
+stats:{
+"Carisma":100,
+"Caos":95,
+"Estilo":98
+}
+},
+
+{
+name:"Leo",
+age:9,
+avatar:"👦",
+class:"Therian Gamer",
+power:"Modo Therian",
+attack:"Combo de Botones",
+defense:"Escudo de Caparazón",
+item:"Game Boy",
+secret:"Puede jugar durante horas sin cansarse.",
+sound:"¡BIP! ¡BIP!",
+phrase:"¡Qué ya pues!",
+weakness:"Que le quiten el Game Boy.",
+stats:{
+"Velocidad":90,
+"Gaming":100,
+"Caos":85
+}
+},
+
+{
+name:"Camila",
+age:6,
+avatar:"👧",
+class:"Capibara Caótica",
+power:"Manos de la Destrucción",
+attack:"Manoseo del Pastel",
+defense:"¿Yo qué hice?",
+item:"Capibara de peluche",
+secret:"Puede encontrar algo que nadie sabía que estaba ahí.",
+sound:"¡MÍO!",
+phrase:"Yo no fui.",
+weakness:"Un pastel recién hecho.",
+stats:{
+"Velocidad":90,
+"Caos":100,
+"Curiosidad":100
+}
+},
+
+{
+name:"Félix",
+age:10,
+avatar:"🐱",
+class:"Personaje Legendario",
+power:"Las 9 Vidas",
+attack:"Zarpazo Felino",
+defense:"Ronroneo Protector",
+item:"Su juguete favorito",
+secret:"Siempre tendrá un lugar en la familia.",
+sound:"Miauuu…",
+phrase:"Siempre serás parte de la familia.",
+weakness:"Ninguna. Es una leyenda.",
+status:"E.P.D. 🕊️",
+stats:{
+"Vidas":100,
+"Agilidad":100,
+"Leyenda":100
+}
+},
+
+{
+name:"Gerardito",
+age:0.25,
+avatar:"👶",
+class:"Bebé Legendario",
+power:"Llanto Sónico",
+attack:"Pataditas Supersónicas",
+defense:"Modo Dormido",
+item:"Biberón legendario",
+secret:"Hace que absolutamente todos dejen lo que están haciendo.",
+sound:"¡Waaaaa!",
+phrase:"¡Waaaaa!",
+weakness:"Tener sueño.",
+stats:{
+"Potencia":100,
+"Caos":100,
+"Ternura":100
+}
+},
+
+{
+name:"Renatita",
+age:2,
+avatar:"👧",
+class:"Mini Jefa",
+power:"Caos Infantil",
+attack:"Lanzamiento de Juguete",
+defense:"Carita Tierna",
+item:"Juguete legendario",
+secret:"Puede conseguir lo que quiere con una sola mirada.",
+sound:"¡Nooo!",
+phrase:"¡Nooo!",
+weakness:"Que le digan que no.",
+stats:{
+"Caos":100,
+"Velocidad":90,
+"Ternura":100
+}
+}
+
+];
+
+
+/* =========================================================
+   CREAR TARJETAS
+========================================================= */
+
+const charactersContainer =
+document.getElementById("characters");
+
+family.forEach((person,index)=>{
+
+    const card=document.createElement("div");
+
+    card.className="character-card";
+
+    card.innerHTML=`
+
+        <div class="avatar">
+            ${person.avatar}
+        </div>
+
+        <div class="character-name">
+            ${person.name}
+        </div>
+
+        <div class="age">
+            ${person.age < 1 ? "3 meses" : person.age+" años"}
+        </div>
+
+    `;
+
+    card.onclick=()=>{
+        showProfile(index);
+    };
+
+    charactersContainer.appendChild(card);
+
+});
+
+
+/* =========================================================
+   CAMBIAR PANTALLA
+========================================================= */
+
+function showScreen(id){
+
+    document.querySelectorAll(".screen")
+    .forEach(screen=>{
+        screen.classList.remove("active");
+    });
+
+    document.getElementById(id)
+    .classList.add("active");
+
+}
+
+
+/* =========================================================
+   PERFIL
+========================================================= */
+
+function showProfile(index){
+
+    const p=family[index];
+
+    document.getElementById("profileAvatar").textContent=p.avatar;
+
+    document.getElementById("profileName").textContent=
+        p.name;
+
+    document.getElementById("profileClass").textContent=
+        p.class+
+        (p.status ? " • "+p.status : "");
+
+    document.getElementById("power").textContent=p.power;
+
+    document.getElementById("attack").textContent=p.attack;
+
+    document.getElementById("defense").textContent=p.defense;
+
+    document.getElementById("item").textContent=p.item;
+
+    document.getElementById("secret").textContent=p.secret;
+
+    document.getElementById("sound").textContent=p.sound;
+
+    document.getElementById("phrase").textContent=p.phrase;
+
+    document.getElementById("weakness").textContent=p.weakness;
+
+
+    const stats=document.getElementById("statsContainer");
+
+    stats.innerHTML="";
+
+    Object.entries(p.stats).forEach(([name,value])=>{
+
+        const row=document.createElement("div");
+
+        row.className="stat";
+
+        row.innerHTML=`
+
+            <div class="stat-line">
+                <span>${name}</span>
+                <b>${value}/100</b>
+            </div>
+
+            <div class="bar">
+                <div class="fill" style="width:${value}%"></div>
+            </div>
+
+        `;
+
+        stats.appendChild(row);
+
+    });
+
+    showScreen("profile");
+
+}
+
+
+/* =========================================================
+   MÚSICA RETRO ORIGINAL
+========================================================= */
+
+let audioContext=null;
+
+function startMusic(){
+
+    try{
+
+        audioContext =
+            new (window.AudioContext ||
+            window.webkitAudioContext)();
+
+        const notes=[
+            261.63,329.63,392.00,523.25,
+            392.00,329.63,293.66,349.23,
+            440.00,523.25,440.00,392.00,
+            329.63,392.00,523.25,659.25,
+            523.25,440.00,392.00,329.63
+        ];
+
+        const start=audioContext.currentTime;
+
+        for(let loop=0;loop<3;loop++){
+
+            notes.forEach((freq,i)=>{
+
+                const osc=audioContext.createOscillator();
+
+                const gain=audioContext.createGain();
+
+                osc.type="square";
+
+                osc.frequency.value=freq;
+
+                const t=
+                    start+
+                    loop*notes.length*.22+
+                    i*.22;
+
+                gain.gain.setValueAtTime(0,t);
+
+                gain.gain.linearRampToValueAtTime(
+                    .045,t+.02
+                );
+
+                gain.gain.exponentialRampToValueAtTime(
+                    .001,t+.19
+                );
+
+                osc.connect(gain);
+
+                gain.connect(audioContext.destination);
+
+                osc.start(t);
+
+                osc.stop(t+.2);
+
+            });
+
+        }
+
+    }catch(e){
+
+        console.log("Audio no disponible");
+
+    }
+
+}
+
+
+/* =========================================================
+   BOTÓN JUEGA
+========================================================= */
+
+function startGame(){
+
+    startMusic();
+
+    showScreen("selection");
+
+}
+
+
+/* =========================================================
+   MINIJUEGOS
+========================================================= */
+
+let gameTimer=null;
+let gameScore=0;
+let gameTime=20;
+let currentGame="";
+
+const gameData={
+
+cake:{
+title:"¡SALVA EL PASTEL!",
+target:"🎂",
+message:"¡CAMILA VIENE POR EL PASTEL!"
+},
+
+tortilla:{
+title:"GUERRA DE TORTILLAS",
+target:"🌮",
+message:"¡ATRAPA TODAS LAS TORTILLAS!"
+},
+
+concert:{
+title:"CONCIERTO DE GERARDO",
+target:"🎵",
+message:"¡ATRAPA LAS NOTAS!"
+},
+
+baby:{
+title:"¡QUE NO LLORE EL BEBÉ target:"👶",
+    message:"¡CALMA AL BEBÉ!"
+},
+
+pizza:{
+    title:"¡SALVA LA PIZZA!",
+    target:"🍕",
+    message:"¡QUE NO SE QUEME!"
+},
+
+corazon:{
+    title:"¡ATRAPA EL CORAZÓN!",
+    target:"❤️",
+    message:"¡NO LO DEJES ESCAPAR!"
+},
+
+estrella:{
+    title:"¡ATRAPA LA ESTRELLA!",
+    target:"⭐",
+    message:"¡ATRAPA TODAS LAS ESTRELLAS!"
+}
+
+};
+
+
+/* =====================================================
+   INICIAR MINI JUEGO
+===================================================== */
+
+function startMiniGame(game){
+
+    currentGame=game;
+    gameScore=0;
+    gameTime=20;
+
+    const data=gameData[game];
+
+    document.getElementById("gameTitle").innerText=data.title;
+    document.getElementById("gameMessage").innerText=data.message;
+    document.getElementById("gameScore").innerText="Puntos: 0";
+    document.getElementById("gameTime").innerText="Tiempo: 20";
+
+    showScreen("game");
+
+    createGameObject();
+
+    clearInterval(gameTimer);
+
+    gameTimer=setInterval(()=>{
+
+        gameTime--;
+
+        document.getElementById("gameTime").innerText=
+            "Tiempo: "+gameTime;
+
+        if(gameTime<=0){
+
+            clearInterval(gameTimer);
+
+            alert(
+                "¡TIEMPO TERMINADO!\n\n"+
+                "Puntuación: "+gameScore
+            );
+
+            showScreen("selection");
+        }
+
+    },1000);
+}
+
+
+/* =====================================================
+   CREAR OBJETO DEL JUEGO
+===================================================== */
+
+function createGameObject(){
+
+    const area=document.getElementById("gameArea");
+
+    if(!area) return;
+
+    area.innerHTML="";
+
+    const data=gameData[currentGame];
+
+    const object=document.createElement("button");
+
+    object.className="gameObject";
+    object.innerText=data.target;
+
+    object.onclick=()=>{
+
+        gameScore++;
+
+        document.getElementById("gameScore").innerText=
+            "Puntos: "+gameScore;
+
+        createGameObject();
+
+        playHitSound();
+    };
+
+    const maxX=Math.max(20,area.clientWidth-80);
+    const maxY=Math.max(20,area.clientHeight-80);
+
+    object.style.left=
+        Math.floor(Math.random()*maxX)+"px";
+
+    object.style.top=
+        Math.floor(Math.random()*maxY)+"px";
+
+    area.appendChild(object);
+}
+
+
+/* =====================================================
+   SONIDO AL ATRAPAR OBJETO
+===================================================== */
+
+function playHitSound(){
+
+    try{
+
+        const AudioContext=
+            window.AudioContext ||
+            window.webkitAudioContext;
+
+        const ctx=new AudioContext();
+
+        const osc=ctx.createOscillator();
+        const gain=ctx.createGain();
+
+        osc.type="square";
+        osc.frequency.value=600;
+
+        gain.gain.value=0.08;
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.start();
+
+        osc.frequency.exponentialRampToValueAtTime(
+            1000,
+            ctx.currentTime+0.08
+        );
+
+        gain.gain.exponentialRampToValueAtTime(
+            0.001,
+            ctx.currentTime+0.12
+        );
+
+        osc.stop(ctx.currentTime+0.12);
+
+    }catch(e){
+
+        console.log("Audio no disponible");
+
+    }
+}
+
+
+/* =====================================================
+   SALIR DEL MINI JUEGO
+===================================================== */
+
+function exitGame(){
+
+    clearInterval(gameTimer);
+
+    gameTimer=null;
+    gameScore=0;
+    currentGame="";
+
+    showScreen("selection");
+}
+
+
+/* =====================================================
+   BOTONES DE MINI JUEGOS
+===================================================== */
+
+function selectGame(game){
+
+    startMiniGame(game);
+
+}
+
+
+/* =====================================================
+   BOTÓN REGRESAR
+===================================================== */
+
+function backToSelection(){
+
+    clearInterval(gameTimer);
+
+    showScreen("selection");
+
+}
+
+
+/* =====================================================
+   TECLADO
+===================================================== */
+
+document.addEventListener("keydown",function(e){
+
+    if(e.key==="Escape"){
+
+        if(currentGame!==""){
+
+            exitGame();
+
+        }
+
+    }
+
+});
